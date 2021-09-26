@@ -12,13 +12,19 @@ import affine
 import vigenere
 import dich_vong
 
+Z26_LENGTH = 26
+UNICODE_LENGTH = 143859
+
+
+# https://www.google.com/search?q=how+many+unicode+characters+are+there&oq=how+much+unicode+c&aqs=chrome.1.69i57j0i22i30l2.8774j0j7&sourceid=chrome&ie=UTF-8
+
 
 class Window(QWidget):
     def __init__(self):
         self.n = 26
 
         super().__init__()
-        self.resize(1200, 900)
+        self.resize(1200, 850)
         self.setWindowTitle("Pham Van Cuong - Ma hoa - Giai Ma")
 
         self.UI()
@@ -35,7 +41,7 @@ class Window(QWidget):
         self.z26.setChecked(True)
         self.z26.clicked.connect(self.changeToZ26)
 
-        self.unicode = QRadioButton("UTF-8", self)
+        self.unicode = QRadioButton("Unicode", self)
         self.unicode.move(110, 10)
         self.unicode.clicked.connect(self.changeToUtf8)
 
@@ -90,7 +96,7 @@ class Window(QWidget):
 
         ban_ma = dich_vong.encode(ban_ro, khoa, self.n)
         self.ketQuaDichVong.setText(f"Kết quả: {ban_ma}")
-        print(ban_ma)
+        pyperclip.copy(ban_ma)
 
     def dich_vong_decode(self):
         ban_ma = self.banMaDichVong.text()
@@ -103,7 +109,7 @@ class Window(QWidget):
         y_pos = 150
 
         self.labelVigenere = QLabel("Vigenere", self)
-        self.labelVigenere.move(x_pos, y_pos - 70)
+        self.labelVigenere.move(x_pos + 10, y_pos - 70)
         self.labelVigenere.setFont(self.font)
 
         self.banRoVigenere = QLineEdit(self)
@@ -140,6 +146,7 @@ class Window(QWidget):
 
         ban_ma = vigenere.encode(ban_ro, khoa, self.n)
         self.ketQuaVigenere.setText(f"Kết quả: {ban_ma}")
+        pyperclip.copy(ban_ma)
 
     def vigenere_decode(self):
         ban_ma = self.banMaVigenere.text()
@@ -152,7 +159,7 @@ class Window(QWidget):
         y_pos = 150
 
         self.labelTusinh = QLabel("Tự Sinh", self)
-        self.labelTusinh.move(x_pos, y_pos - 70)
+        self.labelTusinh.move(x_pos + 15, y_pos - 70)
         self.labelTusinh.setFont(self.font)
 
         self.banRoTusinh = QLineEdit(self)
@@ -190,6 +197,7 @@ class Window(QWidget):
 
         ban_ma = tusinh.encode(ban_ro, khoa, self.n)
         self.ketQuaTusinh.setText(f"Kết quả: {ban_ma}")
+        pyperclip.copy(ban_ma)
 
     def tusinh_decode(self):
         ban_ma = self.banMaTusinh.text()
@@ -202,7 +210,7 @@ class Window(QWidget):
         y_pos = 500
 
         self.labelAffine = QLabel("Affine", self)
-        self.labelAffine.move(x_pos, y_pos - 70)
+        self.labelAffine.move(x_pos + 40, y_pos - 70)
         self.labelAffine.setFont(self.font)
 
         self.banRoAffine = QLineEdit(self)
@@ -247,6 +255,7 @@ class Window(QWidget):
 
         ban_ma = affine.encode(ban_ro, (khoa_a, khoa_b), self.n)
         self.ketQuaAffine.setText(f"Kết quả: {ban_ma}")
+        pyperclip.copy(ban_ma)
 
     def affine_decode(self):
         ban_ma = self.banMaAffine.text()
@@ -261,7 +270,7 @@ class Window(QWidget):
         y_pos = 500
 
         self.labelHill = QLabel("Hill", self)
-        self.labelHill.move(x_pos, y_pos - 70)
+        self.labelHill.move(x_pos + 65, y_pos - 70)
         self.labelHill.setFont(self.font)
 
         self.banRoHill = QLineEdit(self)
@@ -337,7 +346,7 @@ class Window(QWidget):
         y_pos = 500
 
         self.labelHoanVi = QLabel("Hoán Vị", self)
-        self.labelHoanVi.move(x_pos, y_pos - 70)
+        self.labelHoanVi.move(x_pos + 15, y_pos - 70)
         self.labelHoanVi.setFont(self.font)
 
         self.banRoHoanVi = QLineEdit(self)
@@ -372,11 +381,10 @@ class Window(QWidget):
     def hoanvi_encode(self):
         ban_ro = self.banRoHoanVi.text()
         khoa = int(self.khoaHoanVi.text())
-        print(ban_ro)
 
         ban_ma = hoanvi.encode(ban_ro, khoa, self.n)
         self.ketQuaHoanVi.setText(f"Kết quả: {ban_ma}")
-        print(ban_ma)
+        pyperclip.copy(ban_ma)
 
     def hoanvi_decode(self):
         ban_ma = self.banMaHoanVi.text()
@@ -385,12 +393,13 @@ class Window(QWidget):
         self.ketQuaHoanVi.setText(f"Kết quả: {ban_ro}")
 
     def changeToZ26(self):
-        print("z26")
-        self.n = 26
+        print("Change to z26")
+        self.n = Z26_LENGTH
 
     def changeToUtf8(self):
-        print("utf-8")
-        self.n = 1112064
+        print("Change to Unicode")
+        # self.n = 1112064
+        self.n = UNICODE_LENGTH
 
 
 def main():

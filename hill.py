@@ -1,11 +1,14 @@
 from convert_z26 import (ord26, chr26)
 from euclid_mo_rong import tim_phan_tu_nghich_dao
-from uoc_chung_lon_nhat import ucln
+from math import gcd
 
 
 def encode(x, k, n):
     if len(k) != 4:
         return "Khoa k khong hop le!"
+
+    if len(x) % 2 != 0:
+        x += 'z'
 
     current_ord = ord
     current_chr = chr
@@ -45,6 +48,9 @@ def decode(y, k, n):
     # => detk = 17
     # thi ucln(1112064, detk) moi bang 1
 
+    # khi ucln(n, detk) != 1 thì ta vẫn mã hóa được vì trong hàm encode
+    # không cần detk
+
     if len(k) != 4:
         return "Khoa k khong hop le!"
 
@@ -64,7 +70,7 @@ def decode(y, k, n):
 
     detk = k11 * k22 - k21 * k12
 
-    if ucln(detk, n) != 1:
+    if gcd(detk, n) != 1:
         return "Khong ton tai ma tran ND"
 
     nd = tim_phan_tu_nghich_dao(detk, n)
